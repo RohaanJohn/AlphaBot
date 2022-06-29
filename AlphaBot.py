@@ -6,6 +6,7 @@ import random
 from replit import db
 
 
+
 client = discord.Client()
 
 sad_words = ["sad", "depressed", "unhappy", "angry", "miserable", "depressing"]
@@ -23,7 +24,7 @@ def get_quote():
   json_data = json.loads(response.text)
   quote = json_data[0]['q'] + " -" + json_data[0]['a']
   return(quote)
-
+ 
 def update_encouragements(encouraging_message):
   if "encouragements" in db.keys():
     encouragements = db["encouragements"]
@@ -46,50 +47,54 @@ async def on_ready():
 async def on_message(message):
   if message.author == client.user:
     return
-
   msg = message.content
-
-  if msg.startswith('!inspire'):
-    quote = get_quote()
-    await message.channel.send(quote)
-  if msg.startswith('!hi'):
-    await message.channel.send("Hello " + message.author.mention + "!")
-
-
+ 
+  if msg.startswith('ayo inspire'):
+     quote = get_quote()
+     await message.channel.send(quote)
+  
+  
+  if msg.startswith('ayo hi'):
+     await message.channel.send("Hello " + message.author.mention + "!")
+  if msg.startswith('ayo what should I do'):
+     await message.channel.send("Bruh you are literally asking a bot what to do lol.")
+  
   if db["responding"]:
-    options = starter_encouragements
-    if "encouragements" in db.keys():
+     options = starter_encouragements
+     if "encouragements" in db.keys():
       options.extend(db["encouragements"])
 
-    if any(word in msg for word in sad_words):
+  if any(word in msg for word in sad_words):
       await message.channel.send(random.choice(options))
 
-  if msg.startswith("!new"):
-    encouraging_message = msg.split("!new ",1)[1]
-    update_encouragements(encouraging_message)
-    await message.channel.send("New encouraging message added.")
+  if msg.startswith("ayo new"):
+     encouraging_message = msg.split("ayo new ",1)[1]
+     update_encouragements(encouraging_message)
+     await message.channel.send("New encouraging message added.")
+  
 
-  if msg.startswith("!del"):
-    encouragements = []
-    if "encouragements" in db.keys():
+  if msg.startswith("ayo del"):
+     encouragements = []
+     if "encouragements" in db.keys():
       index = int(msg.split("ayo del",1)[1])
       delete_encouragment(index)
       encouragements = list(db["encouragements"])
-    await message.channel.send(encouragements)
+     await message.channel.send(encouragements)
 
-  if msg.startswith("!list"):
-    encouragements = []
-    if "encouragements" in db.keys():
+  if msg.startswith("ayo list"):
+     encouragements = []
+     if "encouragements" in db.keys():
       encouragements = list(db["encouragements"])
-    await message.channel.send(encouragements)
+     await message.channel.send(encouragements)
 
-  if msg.startswith("!responding"):
-    value = msg.split("ab responding ",1)[1]
+  if msg.startswith("ayo responding"):
+     value = msg.split("ab responding ",1)[1]
 
-    if value.lower() == "true":
+     if value.lower() == "true":
       db["responding"] = True
       await message.channel.send("Responding is on.")
-    else:
+     else:
       db["responding"] = False
       await message.channel.send("Responding is off.")
+
 client.run(os.getenv('TOKEN'))
