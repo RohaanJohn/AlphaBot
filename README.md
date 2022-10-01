@@ -1,4 +1,4 @@
-ChadBot is a discord bot which is maintly built as a way to interact with APIs from discord. Currently it uses zenquote api to send a quote and api-ninjas api to send a fact to a channel every 1 hour. 
+ChadBot is a discord bot which is mainly built as a way to interact with APIs from discord. Currently it uses zenquote api to send a quote and api-ninjas api to send a fact to a channel every 1 hour. 
 
 
 The command to send a random quote is -inspire and -help shows the other commands of the bot. 
